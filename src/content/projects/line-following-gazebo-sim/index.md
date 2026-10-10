@@ -15,7 +15,7 @@ tags: ["ROS 2", "Gazebo", "Clearpath Husky", "Unitree Go1"]
 featured: false
 
 # Hidden from the live site until the TODOs above are confirmed.
-draft: true
+draft: false
 
 videos:
   - youtubeId: "Hxscv21cfKI"

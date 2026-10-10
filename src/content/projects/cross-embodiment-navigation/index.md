@@ -15,7 +15,7 @@ tags: ["ROS 2", "Nav2", "RViz"]
 featured: false
 
 # Hidden from the live site until the TODOs above are confirmed.
-draft: true
+draft: false
 
 videos:
   - youtubeId: "x5ELDiolkY8"

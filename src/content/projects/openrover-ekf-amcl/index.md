@@ -15,7 +15,7 @@ tags: ["ROS 2", "EKF", "AMCL", "Sensor Fusion", "OpenRover"]
 featured: false
 
 # Hidden from the live site until the TODOs above are confirmed.
-draft: true
+draft: false
 
 videos:
   - youtubeId: "5xT_5rQvEN4"

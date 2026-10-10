@@ -20,7 +20,7 @@ tags: ["ROS 2", "Gazebo", "Python", "Lidar", "Control", "Clearpath Husky"]
 featured: false
 
 # Hidden from the live site until the TODOs above are confirmed.
-draft: true
+draft: false
 
 gallery:
   - src: "./rviz-overview.jpg"
