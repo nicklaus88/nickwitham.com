@@ -1,0 +1,67 @@
+---
+/**
+ * The grid of every published project, in chronological order, newest first.
+ * No category filter — projects are one continuous timeline (see BUILD_SPEC §4).
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getProjects } from '../../lib/projects';
+
+const projects = await getProjects();
+---
+
+<BaseLayout
+  title="Projects"
+  description="Engineering and robotics projects by Nick Witham, newest first."
+>
+  <section class="container">
+    <h1>Projects</h1>
+
+    {projects.length === 0 ? (
+      <p class="empty">Projects coming soon.</p>
+    ) : (
+      <ul class="grid">
+        {projects.map((project, i) => (
+          <li>
+            <ProjectCard project={project} eager={i < 3} headingLevel={2} />
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    padding-top: var(--space-2xl);
+  }
+
+  h1 {
+    margin-bottom: var(--space-xl);
+  }
+
+  .empty {
+    color: var(--text-muted);
+  }
+
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+  }
+
+  @media (min-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

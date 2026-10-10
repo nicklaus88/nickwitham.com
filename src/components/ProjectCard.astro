@@ -1,0 +1,118 @@
+---
+/**
+ * The grid tile. The entire card is one link to the detail page.
+ * Used on the homepage (featured) and on /projects (everything).
+ */
+import { Image } from 'astro:assets';
+import { formatDateRange, type Project } from '../lib/projects';
+
+interface Props {
+  project: Project;
+  /** Eager-load the image (for the first few cards above the fold). */
+  eager?: boolean;
+  /** Heading level for the title: 2 directly under a page h1, 3 under a section h2. */
+  headingLevel?: 2 | 3;
+}
+
+const { project, eager = false, headingLevel = 3 } = Astro.props;
+const { title, summary, cover, coverAlt, org, dateStart, dateEnd, tags, category } = project.data;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
+
+const meta = [org, formatDateRange(dateStart, dateEnd)].filter(Boolean).join(' · ');
+---
+
+<a class="card" href={`/projects/${project.id}`} data-category={category}>
+  <Image
+    class="cover"
+    src={cover}
+    alt={coverAlt}
+    width={800}
+    widths={[400, 800, 1200]}
+    sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding={eager ? 'sync' : 'async'}
+    format="webp"
+  />
+  <div class="body">
+    <Heading class="title">{title}</Heading>
+    {meta && <p class="meta">{meta}</p>}
+    <p class="summary">{summary}</p>
+    {tags.length > 0 && (
+      <ul class="tags" aria-label="Tags">
+        {tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+    )}
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: var(--text);
+    text-decoration: none;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 150ms ease, transform 150ms ease;
+  }
+
+  .card:hover,
+  .card:focus-visible {
+    color: var(--text);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .cover {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+  }
+
+  .title {
+    font-size: var(--step-1);
+  }
+
+  .card:hover .title {
+    color: var(--accent);
+  }
+
+  .meta {
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+
+  .summary {
+    margin-top: var(--space-2xs);
+  }
+
+  .tags {
+    list-style: none;
+    margin: var(--space-xs) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .tags li {
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    background: var(--bg-subtle);
+    border-radius: 999px;
+    padding: 0 var(--space-xs);
+    line-height: 1.7;
+  }
+</style>

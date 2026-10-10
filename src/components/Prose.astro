@@ -1,0 +1,160 @@
+---
+/**
+ * Typographic wrapper for rendered Markdown. Everything a project write-up
+ * can contain is styled here: headings, lists, tables, code, images,
+ * blockquotes. Line length is capped at --width-content (68ch).
+ */
+---
+
+<div class="prose">
+  <slot />
+</div>
+
+<style is:global>
+  .prose {
+    max-width: var(--width-content);
+  }
+
+  .prose > * + * {
+    margin-top: var(--space-m);
+  }
+
+  .prose h2 {
+    font-size: var(--step-2);
+    margin-top: var(--space-2xl);
+  }
+
+  .prose h3 {
+    font-size: var(--step-1);
+    margin-top: var(--space-xl);
+  }
+
+  .prose h4 {
+    font-size: var(--step-0);
+    margin-top: var(--space-l);
+  }
+
+  .prose h2 + *,
+  .prose h3 + *,
+  .prose h4 + * {
+    margin-top: var(--space-s);
+  }
+
+  .prose ul,
+  .prose ol {
+    padding-left: 1.4em;
+  }
+
+  .prose li + li {
+    margin-top: var(--space-2xs);
+  }
+
+  .prose li > ul,
+  .prose li > ol {
+    margin-top: var(--space-2xs);
+  }
+
+  .prose strong {
+    font-weight: 650;
+  }
+
+  .prose hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin-block: var(--space-xl);
+  }
+
+  /* Blockquote: accent rule on the left. */
+  .prose blockquote {
+    margin-inline: 0;
+    padding-left: var(--space-m);
+    border-left: 3px solid var(--accent);
+    color: var(--text-muted);
+  }
+
+  /* Inline code */
+  .prose :not(pre) > code {
+    font-size: 0.9em;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+  }
+
+  /* Fenced code blocks (Shiki). Colors come from the theme; we set the frame. */
+  .prose pre {
+    font-size: var(--step--1);
+    line-height: 1.55;
+    padding: var(--space-m);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+    tab-size: 2;
+  }
+
+  .prose pre code {
+    display: block;
+    min-width: max-content;
+  }
+
+  /* Shiki dual themes: switch to the dark variant with the OS preference. */
+  @media (prefers-color-scheme: dark) {
+    .prose .astro-code,
+    .prose .astro-code span {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+      font-style: var(--shiki-dark-font-style) !important;
+      font-weight: var(--shiki-dark-font-weight) !important;
+      text-decoration: var(--shiki-dark-text-decoration) !important;
+    }
+  }
+
+  /* Tables: wrapped so wide tables scroll rather than the page. */
+  .prose table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+  }
+
+  .prose th,
+  .prose td {
+    text-align: left;
+    vertical-align: top;
+    padding: var(--space-xs) var(--space-s);
+    border: 1px solid var(--border);
+  }
+
+  .prose th {
+    font-weight: 650;
+    background: var(--bg-subtle);
+  }
+
+  /* Inline images in the body */
+  .prose img {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-subtle);
+  }
+
+  .prose figure {
+    margin-inline: 0;
+  }
+
+  .prose figcaption {
+    margin-top: var(--space-xs);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+
+  .prose kbd {
+    font-size: 0.85em;
+    padding: 0.1em 0.4em;
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    background: var(--bg-subtle);
+  }
+</style>

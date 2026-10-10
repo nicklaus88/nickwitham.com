@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" description="That page doesn't exist.">
+  <section class="container">
+    <h1>Page not found</h1>
+    <p>There's nothing at this address.</p>
+    <p><a href="/">Back to the homepage &rarr;</a></p>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    padding-top: var(--space-3xl);
+  }
+
+  p {
+    margin-top: var(--space-m);
+    color: var(--text-muted);
+  }
+</style>

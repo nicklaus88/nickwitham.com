@@ -1,0 +1,28 @@
+---
+/**
+ * One page per project, generated from the collection.
+ * The entry ID is the folder name, so /projects/<folder-name> is the URL.
+ */
+import { render } from 'astro:content';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { getProjects } from '../../lib/projects';
+
+export async function getStaticPaths() {
+  const projects = await getProjects(); // already sorted newest first
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      newer: projects[i - 1],
+      older: projects[i + 1],
+    },
+  }));
+}
+
+const { project, newer, older } = Astro.props;
+const { Content } = await render(project);
+---
+
+<ProjectLayout project={project} newer={newer} older={older}>
+  <Content />
+</ProjectLayout>

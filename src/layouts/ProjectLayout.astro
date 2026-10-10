@@ -1,0 +1,225 @@
+---
+/**
+ * Detail page for one project. Receives the collection entry plus the
+ * neighbouring entries (in date order) for prev/next navigation.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from './BaseLayout.astro';
+import Prose from '../components/Prose.astro';
+import Gallery from '../components/Gallery.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import { categoryLabel, formatDateRange, type Project } from '../lib/projects';
+
+interface Props {
+  project: Project;
+  /** The more recent neighbour, if any. */
+  newer?: Project;
+  /** The older neighbour, if any. */
+  older?: Project;
+}
+
+const { project, newer, older } = Astro.props;
+const { title, summary, cover, coverAlt, org, role, dateStart, dateEnd, category, links, gallery, videos } =
+  project.data;
+
+const meta = [
+  org,
+  role,
+  formatDateRange(dateStart, dateEnd),
+  categoryLabel(category),
+].filter((v): v is string => Boolean(v));
+---
+
+<BaseLayout title={title} description={summary}>
+  <article class="container project">
+    <p class="back">
+      <a href="/projects">&larr; All projects</a>
+    </p>
+
+    <header class="head">
+      <h1>{title}</h1>
+      <ul class="meta" aria-label="Project details">
+        {meta.map((item) => <li>{item}</li>)}
+      </ul>
+    </header>
+
+    <Image
+      class="cover"
+      src={cover}
+      alt={coverAlt}
+      width={1600}
+      widths={[800, 1200, 1600, 2240]}
+      sizes="(min-width: 1168px) 1072px, calc(100vw - 2rem)"
+      loading="eager"
+      decoding="sync"
+      fetchpriority="high"
+      format="webp"
+    />
+
+    {videos.length > 0 && (
+      <section class="videos" aria-label="Videos">
+        {videos.map((v) => <VideoEmbed youtubeId={v.youtubeId} title={v.title} caption={v.caption} />)}
+      </section>
+    )}
+
+    <Prose>
+      <slot />
+    </Prose>
+
+    {gallery.length > 0 && (
+      <div class="block">
+        <Gallery items={gallery} />
+      </div>
+    )}
+
+    {links.length > 0 && (
+      <section class="block links" aria-label="Links">
+        <h2>Links</h2>
+        <ul>
+          {links.map(({ label, url }) => (
+            <li>
+              <a class="button" href={url} rel="noopener">{label}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {(newer || older) && (
+      <nav class="block pager" aria-label="Adjacent projects">
+        {newer ? (
+          <a class="pager-link newer" href={`/projects/${newer.id}`}>
+            <span class="pager-label">&larr; Newer</span>
+            <span class="pager-title">{newer.data.title}</span>
+          </a>
+        ) : (
+          <span />
+        )}
+        {older && (
+          <a class="pager-link older" href={`/projects/${older.id}`}>
+            <span class="pager-label">Older &rarr;</span>
+            <span class="pager-title">{older.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .project {
+    padding-top: var(--space-xl);
+  }
+
+  .back {
+    font-size: var(--step--1);
+    margin-bottom: var(--space-l);
+  }
+
+  .head {
+    margin-bottom: var(--space-xl);
+  }
+
+  .meta {
+    list-style: none;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+    color: var(--text-muted);
+    font-size: var(--step--1);
+  }
+
+  .meta li + li::before {
+    content: '·';
+    margin-right: var(--space-m);
+  }
+
+  .cover {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-subtle);
+    margin-bottom: var(--space-xl);
+  }
+
+  .videos {
+    display: grid;
+    gap: var(--space-l);
+    max-width: var(--width-content);
+    margin-bottom: var(--space-xl);
+  }
+
+  .block {
+    margin-top: var(--space-2xl);
+  }
+
+  .links h2 {
+    margin-bottom: var(--space-m);
+  }
+
+  .links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: var(--space-xs) var(--space-m);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    color: var(--accent);
+    font-weight: 550;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .button:hover {
+    background: var(--accent);
+    color: var(--accent-text);
+  }
+
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--border);
+  }
+
+  .pager-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    max-width: 45%;
+    text-decoration: none;
+  }
+
+  .pager-link.older {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  .pager-label {
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+
+  .pager-title {
+    color: var(--text);
+    font-weight: 550;
+  }
+
+  .pager-link:hover .pager-title {
+    color: var(--accent);
+  }
+</style>

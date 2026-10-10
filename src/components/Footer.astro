@@ -1,0 +1,35 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© {year} Nick Witham</p>
+    <p><a href="/links">Contact &amp; links</a></p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-3xl);
+    color: var(--text-muted);
+    font-size: var(--step--1);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-l);
+  }
+
+  a {
+    color: var(--text-muted);
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+</style>
