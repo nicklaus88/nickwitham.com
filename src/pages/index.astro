@@ -3,11 +3,9 @@
  * Home. Intro + background, then up to three featured projects.
  * All prose below is placeholder; grep for PLACEHOLDER to find it.
  */
-import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { getProjects } from '../lib/projects';
-import portrait from '../assets/profile-placeholder.jpg';
 
 const featured = (await getProjects()).filter((p) => p.data.featured).slice(0, 3);
 
@@ -17,38 +15,33 @@ const showPortrait = true;
 
 <BaseLayout
   title="Nick Witham"
-  description="Nick Witham — mechanical engineering and robotics, University of Florida. Projects in manipulation, mechanism design, and controls."
+  description="Nick Witham — 3rd Year Mechanical Engineering, University of Florida. Projects in manipulation, mechanism design, and controls."
 >
   <section class="container intro">
     <div class="intro-text">
       <h1>Nick Witham</h1>
       <!-- PLACEHOLDER: owner to replace -->
-      <p class="tagline">Mechanical engineering and robotics, University of Florida.</p>
+      <p class="tagline">3rd Year Mechanical Engineering at the University of Florida.</p>
 
       <!-- PLACEHOLDER: owner to replace -->
       <p>
-        This is placeholder text describing what you work on and what you're interested in.
-        Two or three sentences is plenty. Say what kind of problems you like, what you've built,
-        and what you're looking for next.
+        I’m interested in autonomous systems and robotics, with hands-on experience in robot navigation, manipulation, and deep learning. I’m currently a research assistant at the Robotic Perception and Intelligence Lab (RoboPI) at UF under Dr. Md Jahidul Islam. There, I’ve worked on a cross-embodiment autonomous navigation project and a reinforcement learning controller for AUV diving and surfacing. I’m looking for robotics internships for spring and summer 2027.      
       </p>
       <!-- PLACEHOLDER: owner to replace -->
       <p>
-        A second short paragraph can cover background: where you study, which lab or team you're
-        part of, and anything a visitor should know before they look at the projects below.
+        I’ve also built quadcopters at the Non-Linear Controls and Robotics (NCR) Lab, where I deployed a takeoff and landing controller, and contributed to a robotic bamboo harvester project at the Computer Vision and Sensing Systems (COVISS) Lab. I also designed, manufactured, and analyzed suspension components for Gator Motorsports. On my own time, I build projects like a reinforcement learning controller for a humanoid robot and a 3D-printed four-degree-of-freedom robotic arm.
       </p>
     </div>
 
     {showPortrait && (
-      <Image
+      <img
         class="portrait"
-        src={portrait}
-        alt=""
-        width={320}
-        widths={[320, 640]}
-        sizes="(min-width: 640px) 200px, 140px"
+        src="/profile_picture.png"
+        alt="Portrait of Nick Witham"
+        width="200"
+        height="200"
         loading="eager"
         decoding="sync"
-        format="webp"
       />
     )}
   </section>
