@@ -13,6 +13,7 @@
 <style is:global>
   .prose {
     max-width: var(--width-content);
+    margin-inline: auto;
   }
 
   .prose > * + * {
@@ -115,6 +116,7 @@
     width: max-content;
     max-width: 100%;
     overflow-x: auto;
+    margin-inline: auto;
     border-collapse: collapse;
     font-size: var(--step--1);
   }
@@ -134,6 +136,8 @@
 
   /* Inline images in the body */
   .prose img {
+    display: block;
+    margin-inline: auto;
     border-radius: var(--radius);
     border: 1px solid var(--border);
     background: var(--bg-subtle);
