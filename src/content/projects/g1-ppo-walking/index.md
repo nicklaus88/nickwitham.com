@@ -18,11 +18,10 @@ featured: false
 
 draft: false
 
-# TODO: add the chronological iteration video when it's uploaded
-# videos:
-#   - youtubeId: "..."
-#     title: "G1 walking policy, v1 through v5b in order"
-#     caption: "Each iteration in chronological order"
+videos:
+  - youtubeId: "ls6OH8ghevg"
+    title: "G1 walking policy, v1 through v5b in order"
+    caption: "Each iteration in chronological order"
 ---
 
 ## Overview
