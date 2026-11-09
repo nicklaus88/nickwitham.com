@@ -20,11 +20,10 @@ featured: false
 
 draft: false
 
-# TODO: add the videos when they're uploaded
-# videos:
-#   - youtubeId: "..."
-#     title: "Franka FR3 intercepting a cube with MPC after a blind transit"
-#     caption: "MPC interception: the camera is 3 m upstream of the robot"
+videos:
+  - youtubeId: "aIhzgLef-xQ"
+    title: "Franka FR3 intercepting a cube with MPC after a blind transit"
+    caption: "MPC and Jacobian baseline side by side: at 0.30 m/s the baseline drops the cube during the lift, the MPC holds it"
 ---
 
 ## Overview
