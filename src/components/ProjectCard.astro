@@ -4,7 +4,7 @@
  * Used on the homepage (featured) and on /projects (everything).
  */
 import { Image } from 'astro:assets';
-import { formatDateRange, type Project } from '../lib/projects';
+import type { Project } from '../lib/projects';
 
 interface Props {
   project: Project;
@@ -15,10 +15,9 @@ interface Props {
 }
 
 const { project, eager = false, headingLevel = 3 } = Astro.props;
-const { title, summary, cover, coverAlt, org, dateStart, dateEnd, tags, category } = project.data;
+const { title, summary, cover, coverAlt, org, tags, category } = project.data;
 const Heading = headingLevel === 2 ? 'h2' : 'h3';
 
-const meta = [org, formatDateRange(dateStart, dateEnd)].filter(Boolean).join(' Â· ');
 ---
 
 <a class="card" href={`/projects/${project.id}`} data-category={category}>
@@ -35,7 +34,7 @@ const meta = [org, formatDateRange(dateStart, dateEnd)].filter(Boolean).join(' Â
   />
   <div class="body">
     <Heading class="title">{title}</Heading>
-    {meta && <p class="meta">{meta}</p>}
+    {org && <p class="meta">{org}</p>}
     <p class="summary">{summary}</p>
     {tags.length > 0 && (
       <ul class="tags" aria-label="Tags">
